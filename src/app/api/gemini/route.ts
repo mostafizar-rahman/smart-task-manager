@@ -10,6 +10,8 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Description is required' }, { status: 400 });
         }
 
+        console.log(task, description)
+
         // Get Gemini API key from environment variables
         const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
         if (!GEMINI_API_KEY) {
