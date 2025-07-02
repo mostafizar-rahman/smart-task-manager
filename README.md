@@ -2,7 +2,7 @@
 
 An **AI-powered task management** web application built with modern tools like **Next.js 15**, **Tailwind CSS v4**, **TypeScript**, and **pnpm**. Designed for productivity and performance, this app lets users create, delete, and edit tasks efficiently.  Also, the user can generate a subtask with the help of AI.
 
-🌍 **Live Site:** [smart-task-manager-gold.vercel.app](https://smart-task-manager-gold.vercel.app/)
+🌍 **Live Site:** [ai-smart-task-manager.vercel.app](https://ai-smart-task-manager.vercel.app/)
 
 ---
 
