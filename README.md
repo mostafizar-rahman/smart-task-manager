@@ -34,7 +34,21 @@ To run this project locally, follow the steps below:
 ```bash
 git clone https://github.com/your-username/smart-task-manager.git
 cd smart-task-manager
-Make sure you have pnpm installed. If not, run the command: npm install -g pnpm
-Then install project dependencies run the command: pnpm install
-Start the Development Server run the command: pnpm dev
+```
+### 2. Make sure you have pnpm installed. If not, run the command: 
+
+```bash
+npm install -g pnpm
+```
+
+### 3. Then, install project dependencies run the command: 
+
+```bash
+pnpm install
+```
+
+### 3. Start the Development Server by running the command: 
+```bash
+pnpm run dev
+```
 
