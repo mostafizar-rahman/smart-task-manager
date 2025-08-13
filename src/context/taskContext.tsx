@@ -1,10 +1,14 @@
 'use client'
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { Task } from "@/components/taskItem";
 import { TaskFormValues } from "@/components/taskForm";
 
+export type SortBy = 'none' | 'dueDateAsc' | 'dueDateDesc' | 'statusPending' | 'statusCompleted';
+
 interface TaskContextType {
   tasks: Task[];
+  sortBy: SortBy;
+  setSortBy: (sort: SortBy) => void;
   editingTask: Task | null;
   formOpen: boolean;
   subtaskLoadingId: string | null;
@@ -21,10 +25,72 @@ const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 
 export function TaskProvider({ children }: { children: ReactNode }) {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    if (typeof window !== 'undefined') {
+      const savedTasks = localStorage.getItem("smart-task-manager-tasks");
+      if (savedTasks) {
+        const parsedTasks = JSON.parse(savedTasks);
+        return parsedTasks.map((task: any) => ({
+          ...task,
+          dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+        }));
+      }
+      return [];
+    }
+    return [];
+  });
   const [formOpen, setFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [subtaskLoadingId, setSubtaskLoadingId] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<SortBy>('none');
+
+  const sortedTasks = React.useMemo(() => {
+    let sortableTasks = [...tasks];
+
+    switch (sortBy) {
+      case 'dueDateAsc':
+        sortableTasks.sort((a, b) => {
+          if (!a.dueDate && !b.dueDate) return 0;
+          if (!a.dueDate) return 1;
+          if (!b.dueDate) return -1;
+          return a.dueDate.getTime() - b.dueDate.getTime();
+        });
+        break;
+      case 'dueDateDesc':
+        sortableTasks.sort((a, b) => {
+          if (!a.dueDate && !b.dueDate) return 0;
+          if (!a.dueDate) return 1;
+          if (!b.dueDate) return -1;
+          return b.dueDate.getTime() - a.dueDate.getTime();
+        });
+        break;
+      
+      case 'statusPending':
+        sortableTasks.sort((a, b) => {
+          if (a.status === b.status) return 0;
+          if (a.status === 'pending') return -1;
+          return 1;
+        });
+        break;
+      case 'statusCompleted':
+        sortableTasks.sort((a, b) => {
+          if (a.status === b.status) return 0;
+          if (a.status === 'completed') return -1;
+          return 1;
+        });
+        break;
+      default:
+        // No sorting, or default to original order (which is usually insertion order for useState)
+        break;
+    }
+    return sortableTasks;
+  }, [tasks, sortBy]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("smart-task-manager-tasks", JSON.stringify(tasks));
+    }
+  }, [tasks]);
 
   // trigger in the function open modal for add task form 
   const handleOpenAddForm = () => {
@@ -86,10 +152,12 @@ export function TaskProvider({ children }: { children: ReactNode }) {
   return (
     <TaskContext.Provider
       value={{
-        tasks,
+        tasks: sortedTasks,
         editingTask,
         formOpen,
         subtaskLoadingId,
+        sortBy,
+        setSortBy,
         handleOpenAddForm,
         handleOpenEditForm,
         handleCloseForm,

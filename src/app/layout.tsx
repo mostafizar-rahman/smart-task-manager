@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
-import { Geist, } from "next/font/google";
-import "./globals.css";
+import FilterHeader from "@/components/filterHeader";
 import Header from "@/components/header";
 import { TaskProvider } from "@/context/taskContext";
+import type { Metadata } from "next";
+import { Geist } from "next/font/google";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   title: "Task Management",
@@ -29,6 +29,7 @@ export default function RootLayout({
       >
         <TaskProvider>
           <Header />
+          <FilterHeader />
           {children}
         </TaskProvider>
       </body>
