@@ -8,10 +8,12 @@ An **AI-powered task management** web application built with modern tools like *
 
 ## ✨ Features
 
-- 🔮 AI-generated subtask assistance
-- ✅ Create, edit, and delete tasks
-- 📱 Responsive and modern UI
-- ⚡ Lightning-fast performance with Next.js App Router
+- 🔮 AI-generated subtask assistance  
+- ✅ Create, edit, and delete tasks  
+- 💾 Save tasks in local storage  
+- 📅 Sort tasks by date and status  
+- 📱 Responsive and modern UI  
+- ⚡ Lightning-fast performance with Next.js App Router  
 
 ---
 
