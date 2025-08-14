@@ -6,7 +6,7 @@ const Header = () => {
   const { handleOpenAddForm } = useTaskContext();
   return (
     <div className="container max-sm:px-4 mx-auto flex justify-between items-center py-4">
-      <h1 className="text-xl font-bold">Task Management</h1>
+      <h1 className="text-xl font-bold">Task Manager</h1>
       <div className="flex gap-2">
         <Button onClick={handleOpenAddForm}>Add Task</Button>
       </div>
